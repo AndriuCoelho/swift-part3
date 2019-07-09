@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDele
 
     @IBOutlet var nomeTextField: UITextField?
     @IBOutlet weak var felicidadeTextField: UITextField?
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView?
     
     // MARK: - Variaveis
 
@@ -77,7 +77,15 @@ class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDele
 
     func add(_ item: Item) {
         items.append(item)
-        tableView.reloadData()
+        
+        if let table = tableView {
+            table.reloadData()
+        } else {
+            let alert = UIAlertController(title: "Desculpe", message: "não foi possível atualizar a tabela", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 
