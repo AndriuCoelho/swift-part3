@@ -34,7 +34,12 @@ class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDele
 
     @objc func mostrarNovoItem() {
         let novoItem = NovoItemViewController(delegate: self)
-        navigationController?.pushViewController(novoItem, animated: true)
+        
+        if let navigation = navigationController {
+            navigation.pushViewController(novoItem, animated: true)
+        } else {
+            Alerta(controller: self).show("Desculpe")
+        }
     }
 
     // MARK: - IBAction
@@ -50,12 +55,14 @@ class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDele
         }
         
         let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade)
-        
-        print("comi \(refeicao.nome) e fiquei com felicidade: \(refeicao.felicidade)")
 
         delegate?.adicionar(refeicao)
-
-        navigationController?.popViewController(animated: true)
+        
+        if let navigation = navigationController {
+            navigation.popViewController(animated: true)
+        } else {
+            Alerta(controller: self).show("Atencao", "Erro ao voltar para tela anterior. Refeição adicionada")
+        }
     }
 
     // MARK: - UITableViewDataSource
@@ -65,14 +72,14 @@ class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDele
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
 
-        let row = indexPath.row
-        let item = items[row]
+        let linha = indexPath.row
+        let item = items[linha]
 
-        cell.textLabel?.text = item.nome
+        celula.textLabel?.text = item.nome
 
-        return cell
+        return celula
     }
 
     func add(_ item: Item) {
@@ -81,11 +88,7 @@ class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDele
         if let table = tableView {
             table.reloadData()
         } else {
-            let alert = UIAlertController(title: "Desculpe", message: "não foi possível atualizar a tabela", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-            alert.addAction(ok)
-            present(alert, animated: true, completion: nil)
+            Alerta(controller: self).show()
         }
     }
 }
-
