@@ -52,7 +52,11 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicoesDele
             let linha = indexPath.row
             let refeicao = refeicoes[linha]
             
-            print(refeicao.nome)
+            let alerta = UIAlertController(title: refeicao.nome, message: refeicao.detalhes(), preferredStyle: .alert)
+            let ok = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alerta.addAction(ok)
+            
+            present(alerta, animated: true, completion: nil)
         }
     }
 }
