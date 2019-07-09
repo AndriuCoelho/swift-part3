@@ -38,7 +38,21 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicoesDele
 
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         cell.textLabel?.text = refeicao.nome
+        
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(mostrarDetalhes))
+        cell.addGestureRecognizer(gesture)
 
         return cell
+    }
+    
+    @objc func mostrarDetalhes(recognizer: UILongPressGestureRecognizer) {
+        if recognizer.state == .began {
+            guard let cell = recognizer.view as? UITableViewCell else { return }
+            guard let indexPath = tableView.indexPath(for: cell) else { return }
+            let linha = indexPath.row
+            let refeicao = refeicoes[linha]
+            
+            print(refeicao.nome)
+        }
     }
 }
