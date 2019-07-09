@@ -15,6 +15,9 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicoesDele
 
     func adicionar(_ refeicao: Refeicao) {
         refeicoes.append(refeicao)
+        
+        // salver objetos
+        
         tableView.reloadData()
     }
 
@@ -51,12 +54,10 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicoesDele
             guard let indexPath = tableView.indexPath(for: cell) else { return }
             let linha = indexPath.row
             let refeicao = refeicoes[linha]
-            
-            let alerta = UIAlertController(title: refeicao.nome, message: refeicao.detalhes(), preferredStyle: .alert)
-            let ok = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-            alerta.addAction(ok)
-            
-            present(alerta, animated: true, completion: nil)
+            RemoveRefeicaoViewController(controller: self).mostrar(refeicao) { (_ ) in
+                self.refeicoes.remove(at: linha)
+                self.tableView.reloadData()
+            }
         }
     }
 }
