@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0347C7BC22D50837008E554A /* Alerta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0347C7BB22D50837008E554A /* Alerta.swift */; };
 		0347C7BE22D53207008E554A /* RemoveRefeicaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0347C7BD22D53207008E554A /* RemoveRefeicaoViewController.swift */; };
+		4994C63E22D8D26700FA206F /* RefeicaoDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994C63D22D8D26700FA206F /* RefeicaoDao.swift */; };
 		8D41E813226D25F60029A266 /* NovoItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D41E811226D25F60029A266 /* NovoItemViewController.swift */; };
 		8D41E814226D25F60029A266 /* NovoItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D41E812226D25F60029A266 /* NovoItemViewController.xib */; };
 		8D41E816226D26B80029A266 /* AdicionarItemDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D41E815226D26B80029A266 /* AdicionarItemDelegate.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		0347C7BB22D50837008E554A /* Alerta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerta.swift; sourceTree = "<group>"; };
 		0347C7BD22D53207008E554A /* RemoveRefeicaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveRefeicaoViewController.swift; sourceTree = "<group>"; };
+		4994C63D22D8D26700FA206F /* RefeicaoDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefeicaoDao.swift; sourceTree = "<group>"; };
 		8D41E811226D25F60029A266 /* NovoItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovoItemViewController.swift; sourceTree = "<group>"; };
 		8D41E812226D25F60029A266 /* NovoItemViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NovoItemViewController.xib; sourceTree = "<group>"; };
 		8D41E815226D26B80029A266 /* AdicionarItemDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdicionarItemDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				B9EFBAE7223D76FA00B773B2 /* Refeicao.swift */,
+				4994C63D22D8D26700FA206F /* RefeicaoDao.swift */,
 				B9EFBAE9223D775300B773B2 /* Item.swift */,
 				8D7D203A226AC459003D1AE2 /* AdicionaRefeicoesDelegate.swift */,
 				8D41E815226D26B80029A266 /* AdicionarItemDelegate.swift */,
@@ -197,6 +200,7 @@
 				0347C7BE22D53207008E554A /* RemoveRefeicaoViewController.swift in Sources */,
 				8D85E8D82267C06D00A5E624 /* RefeicoesTableViewController.swift in Sources */,
 				B9EFBAE8223D76FA00B773B2 /* Refeicao.swift in Sources */,
+				4994C63E22D8D26700FA206F /* RefeicaoDao.swift in Sources */,
 				B90829C72221AF9600EA37C8 /* AppDelegate.swift in Sources */,
 				0347C7BC22D50837008E554A /* Alerta.swift in Sources */,
 				8D7D203B226AC459003D1AE2 /* AdicionaRefeicoesDelegate.swift in Sources */,
@@ -353,7 +357,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.alura.eggplant-brownie";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -370,7 +374,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.alura.eggplant-brownie";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

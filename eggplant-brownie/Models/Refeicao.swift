@@ -32,7 +32,7 @@ class Refeicao: NSObject, NSCoding {
     // MARK: - Metodos
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(nome, forKey: "name")
+        aCoder.encode(nome, forKey: "nome")
         aCoder.encode(felicidade, forKey: "felicidade")
         aCoder.encode(itens, forKey: "itens")
     }

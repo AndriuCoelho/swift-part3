@@ -10,14 +10,23 @@ import UIKit
 
 class RefeicoesTableViewController: UITableViewController, AdicionaRefeicoesDelegate {
 
-    var refeicoes = [Refeicao(nome: "Beringela", felicidade: 5),
-                     Refeicao(nome: "Macarrão", felicidade: 3)]
+    var refeicoes: [Refeicao] = []
 
     func adicionar(_ refeicao: Refeicao) {
         refeicoes.append(refeicao)
-        
-        // salver objetos
-        
+        let dao = RefeicaoDao()
+        dao.salvar(refeicoes)
+        tableView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        getRefeicoes()
+    }
+    
+    func getRefeicoes() {
+        let dao = RefeicaoDao()
+        guard let listaDeRefeicoes = dao.recuperar() else { return }
+        refeicoes = listaDeRefeicoes
         tableView.reloadData()
     }
 
