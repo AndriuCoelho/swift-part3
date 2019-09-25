@@ -2,93 +2,115 @@
 //  ViewController.swift
 //  eggplant-brownie
 //
-//  Created by Andriu Felipe Coelho on 23/02/19.
+//  Created by Alura on 23/02/19.
 //  Copyright © 2019 Alura. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, AdicionarItemDelegate {
+protocol AdicionaRefeicaoDelegate {
+    func add(_ refeicao: Refeicao)
+}
 
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AdicionaItensDelegate {
+    
+    // MARK: - IBOutlet
+    
+    @IBOutlet weak var itensTableView: UITableView?
+    
+    // MARK: - Atributos
+    
+    var delegate: AdicionaRefeicaoDelegate?
+    var itens: [Item] = [Item(nome: "Molho de tomate", calorias: 40.0),
+                         Item(nome: "Queijo", calorias: 40.0),
+                         Item(nome: "Molho apimentado", calorias: 40.0),
+                         Item(nome: "Manjericao", calorias: 40.0)]
+    var itensSelecionados: [Item] = []
+    
     // MARK: - IBOutlets
-
+    
     @IBOutlet var nomeTextField: UITextField?
     @IBOutlet weak var felicidadeTextField: UITextField?
-    @IBOutlet weak var tableView: UITableView?
     
-    // MARK: - Variaveis
-
-    var delegate: RefeicoesTableViewController?
-
-    var items = [
-        Item(nome: "Eggplant", calorias: 10),
-        Item(nome: "Brownie", calorias: 10),
-        Item(nome: "Muffin", calorias: 500),
-        Item(nome: "Chocolate chip", calorias: 1000)
-    ]
-
+    // MARK: - View life cycle
+    
     override func viewDidLoad() {
-        let botaoAdicionar = UIBarButtonItem(title: "novo item", style: .plain, target: self, action: #selector(mostrarNovoItem))
-        navigationItem.rightBarButtonItem = botaoAdicionar
+        let botaoAdicionaItem = UIBarButtonItem(title: "adicionar", style: .plain, target: self, action: #selector(adicionarItens))
+        navigationItem.rightBarButtonItem = botaoAdicionaItem
     }
-
-    @objc func mostrarNovoItem() {
-        let novoItem = NovoItemViewController(delegate: self)
-        
-        if let navigation = navigationController {
-            navigation.pushViewController(novoItem, animated: true)
+    
+    @objc func adicionarItens() {
+        let adicionarItensViewController = AdicionarItensViewController(delegate: self)
+        navigationController?.pushViewController(adicionarItensViewController, animated: true)
+    }
+    
+    func add(_ item: Item) {
+        itens.append(item)
+        if let tableView = itensTableView {
+            tableView.reloadData()
         } else {
-            Alerta(controller: self).show("Desculpe")
+            Alerta(controller: self).exibe(mensagem: "Erro ao atualizar tabela")
         }
     }
-
-    // MARK: - IBAction
     
-    @IBAction func adicionar(_ sender: Any) {
+    // MARK: - UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return itens.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
         
+        let linhaDaTabela = indexPath.row
+        let item = itens[linhaDaTabela]
+        
+        celula.textLabel?.text = item.nome
+        
+        return celula
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let celula = tableView.cellForRow(at: indexPath) else { return }
+        if celula.accessoryType == .none {
+            celula.accessoryType = .checkmark
+            let linhaDaTabela = indexPath.row
+            itensSelecionados.append(itens[linhaDaTabela])
+        } else {
+            celula.accessoryType = .none
+            
+            let item = itens[indexPath.row]
+            if let position = itensSelecionados.index(of: item) {
+                itensSelecionados.remove(at: position)                
+            }
+        }
+    }
+    
+    func recuperaRefeicaoDoFormulario() -> Refeicao? {
         guard let nomeDaRefeicao = nomeTextField?.text else {
-            return
+            return nil
         }
         
         guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
-            return
+            return nil
         }
         
-        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade)
-
-        delegate?.adicionar(refeicao)
+        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
         
-        if let navigation = navigationController {
-            navigation.popViewController(animated: true)
+        return refeicao
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func adicionar(_ sender: Any) {
+        if let refeicao = recuperaRefeicaoDoFormulario() {
+            delegate?.add(refeicao)
+            navigationController?.popViewController(animated: true)
         } else {
-            Alerta(controller: self).show("Atencao", "Erro ao voltar para tela anterior. Refeição adicionada")
-        }
-    }
-
-    // MARK: - UITableViewDataSource
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
-
-        let linha = indexPath.row
-        let item = items[linha]
-
-        celula.textLabel?.text = item.nome
-
-        return celula
-    }
-
-    func add(_ item: Item) {
-        items.append(item)
-        
-        if let table = tableView {
-            table.reloadData()
-        } else {
-            Alerta(controller: self).show()
+            Alerta(controller: self).exibe(mensagem: "Erro ao ler dados do formulário")
         }
     }
 }
+

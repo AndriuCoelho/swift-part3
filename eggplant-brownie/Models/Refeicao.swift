@@ -2,13 +2,13 @@
 //  Refeicao.swift
 //  eggplant-brownie
 //
-//  Created by Andriu Felipe Coelho on 16/03/19.
+//  Created by Alura on 16/03/19.
 //  Copyright © 2019 Alura. All rights reserved.
 //
 
 import UIKit
 
-class Refeicao: NSObject, NSCoding {
+class Refeicao: NSObject {
     
     // MARK: - Atributos
     
@@ -21,21 +21,10 @@ class Refeicao: NSObject, NSCoding {
     init(nome: String, felicidade: Int, itens: [Item] = []) {
         self.nome = nome
         self.felicidade = felicidade
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        nome = aDecoder.decodeObject(forKey: "nome") as! String
-        felicidade = aDecoder.decodeInteger(forKey: "felicidade")
-        itens = aDecoder.decodeObject(forKey: "itens") as! Array
+        self.itens = itens
     }
     
     // MARK: - Metodos
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(nome, forKey: "nome")
-        aCoder.encode(felicidade, forKey: "felicidade")
-        aCoder.encode(itens, forKey: "itens")
-    }
     
     func totalDeCalorias() -> Double {
         var total = 0.0
@@ -51,7 +40,7 @@ class Refeicao: NSObject, NSCoding {
         var mensagem = "Felicidade: \(felicidade)"
         
         for item in itens {
-            mensagem += ", \(nome) - calorias: \(item.calorias)"
+            mensagem += ", \(item.nome) - calorias: \(item.calorias)"
         }
         
         return mensagem
